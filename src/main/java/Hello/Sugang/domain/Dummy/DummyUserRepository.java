@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface DummyUserRepository extends JpaRepository<DummyUser,Long> {
     public List<DummyUser> findByStudentId(Long studentId);
+    public List<DummyUser>findByLectureId(Long lectureId);
 }

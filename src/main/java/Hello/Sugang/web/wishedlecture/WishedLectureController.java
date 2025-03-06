@@ -70,10 +70,10 @@ public class WishedLectureController {
     }
 
     @PostMapping("/{id}")
-    public String cancelWishedLecture(@PathVariable Long id,HttpSession session) {
+    public String cancelWishedLecture(@PathVariable("id") Long lectureId,HttpSession session) {
         Student student = (Student) session.getAttribute("loginMember");
-        wishedLectureService.deleteWishedLecture(id);
-        dummyUserService.removeDummyUsersByLecture(student.getId(),id);
+        wishedLectureService.deleteWishedLecture(lectureId);
+        dummyUserService.removeDummyUsersByLectureId(lectureId);
         return "redirect:/wishedlecture/new";
     }
 

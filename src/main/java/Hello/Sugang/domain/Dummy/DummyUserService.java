@@ -39,13 +39,9 @@ public class DummyUserService {
     }
 
     @Transactional
-    public void removeDummyUsersByLecture(Long studentId, Long lectureId) {
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
-
-        List<DummyUser> findDummyUsers = dummyUserRepository.findByStudentId(studentId);
-
-        for (DummyUser dummyUser:findDummyUsers){
+    public void removeDummyUsersByLectureId(Long lectureId) {
+        List<DummyUser> DummyUsers = dummyUserRepository.findByLectureId(lectureId);
+        for (DummyUser dummyUser:DummyUsers){
             dummyUserRepository.delete(dummyUser);
         }
     }

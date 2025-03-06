@@ -52,6 +52,10 @@ public class WishedLectureService {
     public void deleteWishedLecture(Long LectureId){
         WishedLecture wishedLecture = wishedLectureRepository.findByLectureId(LectureId);
 
+        if (wishedLecture==null){
+            log.info("삭제할 강의가 존재하지 않습니다");
+            return;
+        }
         wishedLectureRepository.delete(wishedLecture);
     }
 
