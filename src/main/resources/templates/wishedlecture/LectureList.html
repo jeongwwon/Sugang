@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+  <div>
+    <table class="table table-striped" style="width:115%;">
+      <thead>
+      <tr>
+        <th>번호</th>
+        <th>강의명</th>
+        <th>잔여인원</th>
+        <th>강의시간</th>
+        <th>정원</th>
+        <th>경쟁률 입력</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="lecture : ${lectures}">
+        <td th:text="${lecture.id}"></td>
+        <td th:text="${lecture.name}"></td>
+        <td th:text="${lecture.remainingSeats}"></td>
+        <td th:text="${lecture.lectureTime}"></td>
+        <td th:text="${lecture.totalSeats}"></td>
+
+        <td style="text-align: right;">
+          <div class="d-flex align-items-center">
+            <span class="me-2">1:</span>
+
+            <!-- 경쟁률 입력 필드는 "희망과목담기" 버튼을 누를 때만 필요 -->
+            <form th:unless="${wishedLectureMap[lecture.id] != null}"
+                  th:action="@{/wishedlecture/new}" method="post" class="d-flex align-items-center">
+              <input type="hidden" name="studentId" th:value="${session.loginMember.id}" />
+              <input type="hidden" name="lectureId" th:value="${lecture.id}" />
+
+              <input type="number" name="competition" step="1" min="1" required
+                     class="form-control form-control-sm me-2" placeholder="경쟁률 입력"
+                     style="width: 80px;"
+                     th:value="${wishedLectureMap[lecture.id] != null ? wishedLectureMap[lecture.id] : ''}" />
+
+              <button style="margin-left:20px; width: 110px;" type="submit" class="btn btn-sm btn-info">희망과목담기</button>
+            </form>
+
+            <!-- 신청한 강의라면 "신청취소" 버튼을 표시 -->
+            <form th:if="${wishedLectureMap[lecture.id] != null}"
+                  th:action="@{/wishedlecture/{id}(id=${lecture.id})}" method="post"
+                  onsubmit="return confirm('정말 취소하시겠습니까?');" class="d-flex align-items-center">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="number" name="competition" step="1" min="1" required
+                     class="form-control form-control-sm me-2" placeholder="경쟁률 입력"
+                     style="width: 80px;"
+                     th:value="${wishedLectureMap[lecture.id] != null ? wishedLectureMap[lecture.id] : ''}" />
+              <button style="margin-left:20px;" class="btn btn-sm btn-danger">취소</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div th:replace="fragments/footer :: footer"></div>
+</div> <!-- /container -->
+</body>
+</html>

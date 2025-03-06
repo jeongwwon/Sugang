@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+
+  <div class="d-flex justify-content-end mb-3">
+    <a href="#" th:href="@{lecture/new}" class="btn btn-success">강의등록</a>
+  </div>
+
+  <div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>번호</th>
+        <th>강의명</th>
+        <th>잔여인원</th>
+        <th>강의시간</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="lecture : ${lectures}">
+        <td th:text="${lecture.id}"></td>
+        <td th:text="${lecture.name}"></td>
+        <td th:text="${lecture.totalSeats}"></td>
+        <td th:text="${lecture.lectureTime}"></td>
+        <td>
+          <a
+                  href="#"
+                  th:href="@{/lecture/{id}/edit (id=${lecture.id})}"
+                  class="btn btn-primary"
+                  role="button"
+          >
+            수정
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div th:replace="fragments/footer :: footer"></div>
+</div> <!-- /container -->
+</body>
+</html>
