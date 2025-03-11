@@ -135,23 +135,24 @@
 function sendPostRequest() {
     let studentId = [[${studentId}]];
 
-    fetch('/enrollment/compete', {
+    // studentId가 숫자인지 확인
+    if (!studentId || isNaN(studentId)) {
+        console.error("Invalid studentId:", studentId);
+        return;
+    }
+
+    fetch(`/enrollment/dummy/bulk/${studentId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ studentId: studentId })
+        }
     })
-    .then(response => response.text()) // JSON 대신 텍스트로 처리
-    .then(data => {
-        console.log('Success:', data);
-        alert(data); // "Enrollment process started" 메시지 표시
-    })
+    .then(response => response.text()) // 응답을 받지만 사용하지 않음
     .catch(error => {
         console.error('Error:', error);
-        alert("신청에 실패했습니다.");
     });
 }
+
 
 
 </script>

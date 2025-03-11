@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class LectureService {
         lecture.setName(lectureForm.getName());
         lecture.setTotalSeats(lectureForm.getTotalSeats());
         lecture.setRemainingSeats(lectureForm.getTotalSeats());
+
 
         lectureRepository.save(lecture);
     }
@@ -55,5 +58,12 @@ public class LectureService {
 
     public Lecture findOne(Long id) {
         return lectureRepository.findById(id).orElse(null);
+    }
+
+    public void initializeLecture(Long lectureId){
+        Lecture lecture = lectureRepository.findById(lectureId)
+                .orElseThrow(() -> new RuntimeException("Lecture not found"));
+
+        lecture.init();
     }
 }

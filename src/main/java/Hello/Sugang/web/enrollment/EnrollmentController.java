@@ -1,5 +1,6 @@
 package Hello.Sugang.web.enrollment;
 
+import Hello.Sugang.domain.Dummy.DummyUser;
 import Hello.Sugang.domain.enrollment.CompeteForm;
 import Hello.Sugang.domain.enrollment.EnrollmentService;
 import Hello.Sugang.domain.lecture.Lecture;
@@ -11,10 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Controller
 @Slf4j
@@ -23,6 +26,7 @@ import java.util.Map;
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @GetMapping
     public String createForm(Model model, HttpSession session) {
@@ -38,16 +42,27 @@ public class EnrollmentController {
 
         return "enrollment/wishList";
     }
-    @PostMapping("/compete")
-    public ResponseEntity<Map<String, String>> compete(@RequestBody CompeteForm request) {
-        enrollmentService.autoEnrollLectures(request.getStudentId());
 
-        // JSON 형태로 응답
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Enrollment process started");
-
-        return ResponseEntity.ok(response);
+    /**
+     * 개별 DummyUser를 HTTP 요청으로 수강 신청
+     */
+    @PostMapping("/dummy/{dummyUserId}/{lectureId}")
+    public ResponseEntity<String> enrollDummyUser(@PathVariable Long dummyUserId,@PathVariable Long lectureId) {
+        log.info("Received enrollment request for DummyUser ID: {}", dummyUserId);
+        enrollmentService.enrollDummyUser(dummyUserId,lectureId);
+        return ResponseEntity.ok("Enrollment request received for DummyUser ID: " + dummyUserId);
     }
+
+    /**
+     * 특정 학생의 모든 DummyUser가 개별적으로 HTTP 요청을 보내도록 병렬 요청 실행
+     */
+    @PostMapping("/dummy/bulk/{studentId}")
+    public ResponseEntity<String> bulkEnrollDummyUsers(@PathVariable Long studentId) {
+        log.info("Received bulk enrollment request for Student ID: {}", studentId);
+        return enrollmentService.bulkEnrollDummyUsers(studentId);
+    }
+
+
     @PostMapping("/init")
     public String initializeEnrollment(@RequestParam Long studentId){
         enrollmentService.initialize(studentId);

@@ -28,9 +28,15 @@ public class WishedLectureService {
 
         return wishedLectureRepository.findByStudent(student);
     }
+
+    public List<Long> getWishedLecturesIdByStudentId(Long studentId) {
+        return wishedLectureRepository.getWishedLectureIdsByStudentId(studentId);
+    }
+
     public WishedLecture getWishedLecturesByLectureId(Long lectureId){
         return wishedLectureRepository.findByLectureId(lectureId);
     }
+
     @Transactional
     public void saveWishedLecture(Long studentId, Long lectureId,double competition) {
         // 강의 찾기

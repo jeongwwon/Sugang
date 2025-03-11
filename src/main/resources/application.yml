@@ -4,7 +4,12 @@ spring:
     username: sa
     password: 1234
     driver-class-name: org.h2.Driver
-
+    hikari:
+      minimum-idle: 10            # 최소 유지 커넥션 수
+      maximum-pool-size: 40        # 최대 커넥션 수 (기본값: 10 → 20으로 증가)
+      idle-timeout: 30000          # 유휴 커넥션 유지 시간 (30초 후 정리)
+      connection-timeout: 30000    # 커넥션 대기 시간 (30초)
+      max-lifetime: 1800000        # 커넥션 최대 유지 시간 (30분)
   devtools:
     livereload:
       enabled: true
@@ -22,5 +27,20 @@ spring:
 
 logging:
   level:
+    Hello.Sugang.web.wishedlecture: DEBUG
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+

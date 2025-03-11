@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 public class LectureForm {
@@ -17,7 +18,7 @@ public class LectureForm {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime lectureTime;
     @Min(1)
-    private int totalSeats;
+    private int totalSeats;//=new AtomicInteger(0);
     public LectureForm(){
         this.lectureTime = LocalDateTime.now().withYear(2025); // 연도 2025로 고정
     }
