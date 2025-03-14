@@ -1,8 +1,8 @@
 package Hello.Sugang.domain.enrollment.controller;
 
-import Hello.Sugang.domain.Dummy.DummyUser;
-import Hello.Sugang.domain.enrollment.CompeteForm;
-import Hello.Sugang.domain.enrollment.EnrollmentService;
+import Hello.Sugang.domain.enrollment.service.EnrollmentService;
+import Hello.Sugang.domain.enrollment.service.GroupEnrollmentService;
+import Hello.Sugang.domain.enrollment.service.SingleEnrollmentService;
 import Hello.Sugang.domain.lecture.Lecture;
 import Hello.Sugang.domain.student.Student;
 import Hello.Sugang.domain.wishedlecture.WishedLecture;
@@ -14,12 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
+
 
 @Controller
 @Slf4j
@@ -29,6 +26,8 @@ public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
     private final WishedLectureService wishedLectureService;
+    private final GroupEnrollmentService groupEnrollmentService;
+    private final SingleEnrollmentService singleEnrollmentService;
 
     @GetMapping
     public String createForm(Model model, HttpSession session) {
@@ -51,8 +50,7 @@ public class EnrollmentController {
      */
     @PostMapping("/dummy/{dummyUserId}/{lectureId}")
     public ResponseEntity<String> enrollDummyUser(@PathVariable Long dummyUserId,@PathVariable Long lectureId) {
-        log.info("Received enrollment request for DummyUser ID: {}", dummyUserId);
-        enrollmentService.enrollDummyUser(dummyUserId,lectureId);
+        singleEnrollmentService.enrollDummyUser(dummyUserId,lectureId);
         return ResponseEntity.ok("Enrollment request received for DummyUser ID: " + dummyUserId);
     }
 
@@ -61,8 +59,7 @@ public class EnrollmentController {
      */
     @PostMapping("/dummy/bulk/{studentId}")
     public ResponseEntity<String> bulkEnrollDummyUsers(@PathVariable Long studentId) {
-        log.info("Received bulk enrollment request for Student ID: {}", studentId);
-        return enrollmentService.bulkEnrollDummyUsers(studentId);
+        return groupEnrollmentService.bulkEnrollDummyUsers(studentId);
     }
 
 

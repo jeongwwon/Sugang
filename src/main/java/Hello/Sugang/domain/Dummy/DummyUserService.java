@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -21,7 +21,6 @@ public class DummyUserService {
     private final StudentRepository studentRepository;
     private final DummyUserRepository dummyUserRepository;
     private final LectureRepository lectureRepository;
-    private final EntityManager entityManager;
     @Transactional
     public void createDummyStudents(Long studentId,Long lectureId,double competition) {
 
@@ -33,12 +32,7 @@ public class DummyUserService {
 
         //생성할 더미 학생 수 계산
         int count = (int) Math.round(competition * lecture.getTotalSeats()); // 더미 학생= 경쟁률 * 정원
-        ArrayList<DummyUser> list = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            DummyUser dummyStudent = new DummyUser(student,lecture);
-            list.add(dummyStudent);
-        }
-        dummyUserRepository.saveAll(list);
+        dummyUserRepository.bulkInsert(studentId, lectureId, count);
     }
 
     @Transactional

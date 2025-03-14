@@ -59,11 +59,4 @@ public class LectureService {
     public Lecture findOne(Long id) {
         return lectureRepository.findById(id).orElse(null);
     }
-
-    public void initializeLecture(Long lectureId){
-        Lecture lecture = lectureRepository.findById(lectureId)
-                .orElseThrow(() -> new RuntimeException("Lecture not found"));
-
-        lecture.init();
-    }
 }

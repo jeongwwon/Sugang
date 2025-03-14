@@ -34,7 +34,7 @@ public class WishedLectureService {
     }
 
     /**
-     *  수강신청 대기 인원
+     *  강의별 수강신청 대기 인원
      */
     public List<Integer> WaitingList(List<Lecture> lectures){
         ArrayList<Integer> list = new ArrayList<>();

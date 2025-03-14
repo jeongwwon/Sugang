@@ -10,13 +10,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.util.StopWatch;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @SpringBootTest
 class DummyUserServiceTest {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private EntityManager entityManager;
@@ -66,6 +73,7 @@ class DummyUserServiceTest {
     }
     @Test
     @Transactional
+    @Commit
     public void SaveDummyUsers(){
         Long studentId = 1L;
         Long lectureId = 1L;
@@ -81,15 +89,33 @@ class DummyUserServiceTest {
         long startTime = System.currentTimeMillis();
 
         log.info("DummyUser 생성 시작 - 총 {}명", count);
-        ArrayList<DummyUser> list = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            DummyUser dummyStudent = new DummyUser(student,lecture);
-            list.add(dummyStudent);
-            //dummyUserRepository.save(dummyStudent);
-        }
-        dummyUserRepository.saveAll(list);
+        //saveByPersist(student,lecture,count);
+        //EntityBatchInsert(student.getId(), lecture.getId(), count);
+        dummyUserRepository.bulkInsert(studentId,lectureId,count);
         long endTime = System.currentTimeMillis(); // 종료 시간
         double executionTimeInSeconds = (endTime - startTime) / 1000.0; // 초 변환
-        log.info("DummyUser 생성 완료 - 실행 시간: {}초", String.format("%.3f", executionTimeInSeconds));
+        //log.info("개별 쿼리 DummyUser 생성 완료 - 실행 시간: {}초", String.format("%.3f", executionTimeInSeconds));
+        //log.info("JBCD DummyUser 생성 완료 - 실행 시간: {}초", String.format("%.3f", executionTimeInSeconds));
+        log.info("DummyUser 벌크 생성 완료 - 실행 시간: {}초",String.format("%.3f", executionTimeInSeconds));
+    }
+    public void saveByPersist(Student student,Lecture lecture,int count){
+        ArrayList<DummyUser> list = new ArrayList<>();
+        for (int i=0;i<count;i++){
+            DummyUser dummyUser = new DummyUser(student, lecture);
+            list.add(dummyUser);
+        }
+        dummyUserRepository.saveAll(list);
+    }
+    // JDBC Batch insert
+    public void EntityBatchInsert(Long studentId, Long lectureId, int count) {
+        String sql = "INSERT INTO dummy_user (id, student_id, lecture_id) VALUES (nextval('dummy_user_seq'), ?, ?)";
+
+        List<Object[]> batchArgs = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            batchArgs.add(new Object[]{studentId, lectureId});
+        }
+
+        jdbcTemplate.batchUpdate(sql, batchArgs);
+        log.info("{}개의 DummyUser Batch Insert 완료", count);
     }
 }

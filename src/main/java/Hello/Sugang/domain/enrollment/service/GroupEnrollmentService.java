@@ -1,47 +1,26 @@
-package Hello.Sugang.domain.enrollment;
-
+package Hello.Sugang.domain.enrollment.service;
 
 import Hello.Sugang.domain.Dummy.DummyUser;
 import Hello.Sugang.domain.Dummy.DummyUserRepository;
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.lecture.LectureRepository;
-import Hello.Sugang.domain.wishedlecture.WishedLectureService;
-import io.micrometer.core.annotation.Timed;
-import jakarta.transaction.Transactional;
+import Hello.Sugang.domain.enrollment.network.HttpEnrollment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import Hello.Sugang.domain.wishedlecture.WishedLecture;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-import Hello.Sugang.domain.enrollment.network.HttpEnrollment;
+
 @Service
-@Slf4j
-@Timed("my.enrollment")
 @RequiredArgsConstructor
-public class EnrollmentService {
-
-    private final EnrollmentRepository enrollmentRepository;
+@Slf4j
+public class GroupEnrollmentService {
     private final DummyUserRepository dummyUserRepository;
-    private final WishedLectureService wishedLectureService;
-    private final LectureRepository lectureRepository;
-    private final EnrollmentProcessor enrollmentProcessor;
     private final ExecutorService executorService = Executors.newFixedThreadPool(50); // 병렬 HTTP 요청을 위한 스레드 풀
-
-    /**
-     *  학생의 신청 여부 확인
-     */
-    public Map<Long, Boolean> findRegistryList(Long studentId) {
-        return enrollmentRepository.findByStudentId(studentId)
-                .stream().collect(Collectors.toMap(e -> e.getLecture().getId(), e -> true));
-    }
-
     /**
      *  강의별 그룹화 (강의 ID,더미 유저 ID)
      */
@@ -54,7 +33,7 @@ public class EnrollmentService {
                 ));
     }
     /**
-     *  강의별 수강신청 (병렬)
+     *  강의별 병렬 신청
      */
     public ResponseEntity<String> bulkEnrollDummyUsers(Long studentId) {
         Map<Long, List<Long>> lectureToDummyUsers = groupDummyUsersByLecture(studentId);
@@ -73,7 +52,7 @@ public class EnrollmentService {
     }
 
     /**
-     *  특정 강의 유저들의 수강 신청
+     *  특정 강의에 속한 유저들의 수강 신청(병렬)
      */
     private void processLectureEnrollments(Long lectureId, List<Long> dummyUserIds) {
         List<CompletableFuture<Void>> futures = dummyUserIds.stream()
@@ -82,26 +61,4 @@ public class EnrollmentService {
 
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
     }
-
-    /**
-     *  최종 등록
-     */
-    @Transactional
-    public void enrollDummyUser(Long dummyUserId,Long lectureId) {
-        enrollmentProcessor.processEnrollment(dummyUserId, lectureId);
-    }
-
-    /**
-     *  초기화
-     */
-    @Transactional
-    public void initialize(Long studentId) {
-        List<Long> lectureIds = wishedLectureService.getWishedLecturesIdByStudentId(studentId);
-
-        if (!lectureIds.isEmpty()) {
-            lectureRepository.bulkInitializeLectures(lectureIds);
-            enrollmentRepository.bulkDeleteByLectureIds(lectureIds);
-        }
-    }
-
 }

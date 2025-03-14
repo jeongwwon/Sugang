@@ -41,6 +41,7 @@ public class StudentController {
         studentRepository.save(student);
         return "redirect:/";
     }
+
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model) {
         Optional<Student> existingStudent = studentRepository.findById(id);
@@ -50,6 +51,7 @@ public class StudentController {
         model.addAttribute("student",existingStudent.get());
         return "students/editStudentForm"; // 수정 폼 페이지
     }
+
     @PostMapping("/{id}/edit")
     @Transactional
     public String updateStudent(@PathVariable Long id, @Validated @ModelAttribute DifficultyForm difficultyForm, BindingResult bindingResult) {

@@ -1,23 +1,25 @@
-package Hello.Sugang.domain.enrollment;
+package Hello.Sugang.domain.enrollment.service;
 
+import Hello.Sugang.domain.enrollment.Enrollment;
+import Hello.Sugang.domain.enrollment.EnrollmentRepository;
 import Hello.Sugang.domain.lecture.Lecture;
 import Hello.Sugang.domain.lecture.LectureRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- *  수강 등록 클래스
- */
 @Service
 @RequiredArgsConstructor
-public class EnrollmentProcessor {
+
+public class SingleEnrollmentService {
+
     private final EnrollmentRepository enrollmentRepository;
     private final LectureRepository lectureRepository;
-
+    /**
+     *  HTTP 요청을 통한 최종 등록
+     */
     @Transactional
-    public void processEnrollment(Long studentId, Long lectureId) {
-        // 비관적 락을 통한 동기화
+    public void enrollDummyUser(Long dummyUserId,Long lectureId) {
         Lecture targetLecture = lectureRepository.findByIdForUpdate(lectureId);
 
         if (targetLecture.getRemainingSeats() <= 0) {
@@ -25,7 +27,7 @@ public class EnrollmentProcessor {
         }
 
         Enrollment enrollment = new Enrollment();
-        enrollment.setStudentId(studentId);
+        enrollment.setStudentId(dummyUserId);
         enrollment.setLecture(targetLecture);
         enrollmentRepository.save(enrollment);
         targetLecture.decreaseSeats();
