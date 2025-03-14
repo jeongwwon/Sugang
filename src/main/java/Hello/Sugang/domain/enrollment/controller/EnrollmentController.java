@@ -1,10 +1,12 @@
-package Hello.Sugang.web.enrollment;
+package Hello.Sugang.domain.enrollment.controller;
 
 import Hello.Sugang.domain.Dummy.DummyUser;
 import Hello.Sugang.domain.enrollment.CompeteForm;
 import Hello.Sugang.domain.enrollment.EnrollmentService;
 import Hello.Sugang.domain.lecture.Lecture;
 import Hello.Sugang.domain.student.Student;
+import Hello.Sugang.domain.wishedlecture.WishedLecture;
+import Hello.Sugang.domain.wishedlecture.WishedLectureService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,15 +28,16 @@ import java.util.concurrent.CompletableFuture;
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final WishedLectureService wishedLectureService;
 
     @GetMapping
     public String createForm(Model model, HttpSession session) {
         Student student = (Student) session.getAttribute("loginMember");
 
-        List<Lecture> lectures = enrollmentService.findLecturesByWished(student.getId());
+        List<Lecture> lectures = wishedLectureService.getWishedLecturesByStudentId(student.getId()).stream().map(WishedLecture::getLecture).toList();
+        List<Integer> competitons = wishedLectureService.WaitingList(lectures);
         Map<Long, Boolean> enrollmentMap = enrollmentService.findRegistryList(student.getId());
-        List<Integer> competitons = enrollmentService.findReservation(lectures);
+
         model.addAttribute("studentId",student.getId());
         model.addAttribute("competitions",competitons);
         model.addAttribute("lectures", lectures);
@@ -44,7 +47,7 @@ public class EnrollmentController {
     }
 
     /**
-     * 개별 DummyUser를 HTTP 요청으로 수강 신청
+     * 개별 Dummy User 를 HTTP 요청으로 수강 신청
      */
     @PostMapping("/dummy/{dummyUserId}/{lectureId}")
     public ResponseEntity<String> enrollDummyUser(@PathVariable Long dummyUserId,@PathVariable Long lectureId) {

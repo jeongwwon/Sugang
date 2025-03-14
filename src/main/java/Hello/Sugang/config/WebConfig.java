@@ -1,4 +1,4 @@
-package Hello.Sugang;
+package Hello.Sugang.config;
 
 import Hello.Sugang.domain.enrollment.EnrollmentService;
 import Hello.Sugang.web.interceptor.LoginCheckInterceptor;

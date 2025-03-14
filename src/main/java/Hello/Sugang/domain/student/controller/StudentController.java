@@ -1,4 +1,4 @@
-package Hello.Sugang.web.student;
+package Hello.Sugang.domain.student.controller;
 
 import Hello.Sugang.domain.student.Difficulty;
 import Hello.Sugang.domain.student.DifficultyForm;

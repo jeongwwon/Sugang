@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +21,6 @@ public class WishedLectureService {
     private final WishedLectureRepository wishedLectureRepository;
     private final LectureRepository lectureRepository;
     private final StudentRepository studentRepository;
-    private final DummyUserService dummyUserService;
 
     public List<WishedLecture> getWishedLecturesByStudentId(Long studentId){
         Student student = studentRepository.findById(studentId)
@@ -31,6 +31,17 @@ public class WishedLectureService {
 
     public List<Long> getWishedLecturesIdByStudentId(Long studentId) {
         return wishedLectureRepository.getWishedLectureIdsByStudentId(studentId);
+    }
+
+    /**
+     *  수강신청 대기 인원
+     */
+    public List<Integer> WaitingList(List<Lecture> lectures){
+        ArrayList<Integer> list = new ArrayList<>();
+        for (Lecture lr:lectures){
+            list.add(lr.getTotalSeats()*(int)getWishedLecturesByLectureId(lr.getId()).getCompetition());
+        }
+        return list;
     }
 
     public WishedLecture getWishedLecturesByLectureId(Long lectureId){

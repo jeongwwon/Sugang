@@ -1,4 +1,4 @@
-package Hello.Sugang.web.lecture;
+package Hello.Sugang.domain.lecture.controller;
 
 import Hello.Sugang.domain.lecture.Lecture;
 import Hello.Sugang.domain.lecture.LectureForm;

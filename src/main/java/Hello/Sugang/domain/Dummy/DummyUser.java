@@ -14,7 +14,6 @@ public class DummyUser {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dummy_user_seq")
     private Long id;
 
-    // id student_id(FK) lecture_id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
     private Student student;

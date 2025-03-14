@@ -1,4 +1,4 @@
-package Hello.Sugang;
+package Hello.Sugang.web;
 
 import Hello.Sugang.web.SessionConst;
 import jakarta.servlet.http.HttpSession;

@@ -13,9 +13,6 @@ import java.util.List;
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
     List<Enrollment> findByStudentId(Long studentId);
-    List<Enrollment> findByLectureId(Long lectureId);
-    void deleteByLectureId(Long LectureId);
-    boolean existsByStudentIdAndLectureId(Long studentId, Long lectureId);
 
     // 벌크 DELETE 적용 (동시성 문제 방지됨)
     @Modifying

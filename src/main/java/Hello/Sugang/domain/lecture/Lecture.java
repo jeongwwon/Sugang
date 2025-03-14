@@ -31,14 +31,14 @@ public class Lecture {
     private LocalDateTime lectureTime;
 
     @NotNull
-    @Min(0) // 최소값 검증 추가
+    @Min(0) // 최소값
     private int remainingSeats;
 
     @NotNull
-    @Min(1) // 최소 1개의 좌석이 있어야 함
+    @Min(1) // 최소 1개의 좌석
     private int totalSeats;
 
-    // ✅ 좌석 감소 (수강 신청 시 사용)
+    //좌석 감소
     public synchronized boolean decreaseSeats() {
         if (remainingSeats > 0) {
             this.remainingSeats--;
@@ -49,7 +49,7 @@ public class Lecture {
         }
     }
 
-    // ✅ 좌석 증가 (취소 시 사용)
+    //좌석 증가
     public synchronized void increaseSeats() {
         if (remainingSeats < totalSeats) {
             this.remainingSeats++;
@@ -57,7 +57,9 @@ public class Lecture {
             log.info("잔여 좌석이 총 좌석 수를 초과할 수 없습니다.");
         }
     }
+
     public void init(){
         this.remainingSeats=totalSeats;
     }
+
 }

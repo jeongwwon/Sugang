@@ -1,4 +1,4 @@
-package Hello.Sugang.web.wishedlecture;
+package Hello.Sugang.domain.wishedlecture.controller;
 
 import Hello.Sugang.domain.lecture.Lecture;
 import Hello.Sugang.domain.lecture.LectureService;
