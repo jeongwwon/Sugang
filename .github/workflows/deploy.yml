@@ -24,7 +24,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
+      - name: Build with Gradle (skip tests for CI)
         run: ./gradlew build -x test
 
       - name: Configure AWS credentials
@@ -51,19 +51,19 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
+          cat > commands.json <<EOF
+          {
+            "commands": [
+              "docker stop portfolio-app || true",
+              "docker rm portfolio-app || true",
+              "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $ECR_REGISTRY",
+              "docker run -d --name portfolio-app -p 8080:8080 -e JAVA_OPTS=-Xmx256m -e SPRING_DATASOURCE_URL=${{ secrets.RDS_URL }} -e SPRING_DATASOURCE_PASSWORD=${{ secrets.RDS_PASSWORD }} $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+            ]
+          }
+          EOF
+
           aws ssm send-command \
             --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy new Docker image" \
-            --parameters '{
-              "commands": [
-                "docker stop portfolio-app || true",
-                "docker rm portfolio-app || true",
-                "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin '"$ECR_REGISTRY"'",
-                "docker run -d --name portfolio-app -p 8080:8080 \
-                  -e JAVA_OPTS=-Xmx256m \
-                  -e SPRING_DATASOURCE_URL=${{ secrets.RDS_URL }} \
-                  -e SPRING_DATASOURCE_PASSWORD=${{ secrets.RDS_PASSWORD }} \
-                  $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-              ]
-            }'
+            --parameters file://commands.json
