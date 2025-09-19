@@ -10,6 +10,7 @@ public class SugangApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SugangApplication.class, args);
+		System.out.println("권한 설정 완료");
 	}
 
 }
