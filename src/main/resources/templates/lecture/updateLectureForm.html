@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+
+    <form th:object="${form}" method="post">
+        <div class="form-group">
+            <label th:for="name">강의명</label>
+            <input
+                    type="text"
+                    th:field="*{name}"
+                    class="form-control"
+                    placeholder="강의명을 입력하세요"
+            />
+        </div>
+
+        <div class="form-group">
+            <label th:for="totalSeats">수강 인원</label>
+            <input
+                    type="number"
+                    th:field="*{totalSeats}"
+                    class="form-control"
+                    placeholder="수강 인원을 입력하세요"
+            />
+        </div>
+
+        <div class="form-group">
+            <label th:for="lectureTime">강의 시간</label>
+            <input type="datetime-local"
+                   th:field="*{lectureTime}"
+                   th:value="${#temporals.format(form.lectureTime.withYear(2025), 'yyyy-MM-dd''T''HH:mm')}"
+                   class="form-control" />
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</div> <!-- /container -->
+</body>
+</html>

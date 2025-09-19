@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+    <div class="jumbotron">
+        <h1>모의 수강 신청</h1>
+
+        <p class="lead text-center">회원 기능</p>  <!-- ✅ 회원 기능 제목도 중앙 정렬 -->
+        <div class="d-flex justify-content-center align-items-center gap-3">
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-lg btn-secondary">로그아웃</button>
+            </form>
+            <a style="margin-left: 4px;" class="btn btn-lg btn-secondary"
+               th:if="${session.loginMember}"
+               th:href="@{/students/{id}/edit(id=${session.loginMember.id})}">
+                난이도 설정
+            </a>
+        </div>
+
+        <p class="lead" style="margin-top: 15px;">강의 기능</p>
+        <a class="btn btn-lg btn-dark" href="/lecture/new">강의등록</a>
+        <a class="btn btn-lg btn-dark" href="/lecture">강의목록</a>
+        <a class="btn btn-lg btn-dark" href="/wishedlecture/new">희망과목담기</a>
+
+
+        <p style="margin-top: 15px;" class="lead">수강 신청</p>
+        <p>
+            <a class="btn btn-lg btn-info" href="/enrollment">수강신청</a>
+            <a class="btn btn-lg btn-info" href="">수강신청내역</a>
+        </p>
+    </div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+<!-- /container -->
+</body>
+</html>

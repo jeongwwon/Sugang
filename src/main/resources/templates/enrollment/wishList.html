@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"></head>
+<body>
+<div class="container">
+  <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
+
+  <!-- 5초 후 시작 버튼 -->
+  <div class="d-flex justify-content-end mb-3">
+    <button id="startButton" class="btn btn-success" onclick="startCountdown()">5초 후 시작!</button>
+  </div>
+
+  <!-- 중앙에 표시되는 카운트다운 숫자 -->
+  <div id="countdownContainer">
+    <span id="countdownText">5</span>
+  </div>
+
+  <!-- 네이비즘 노래 (자동 재생) -->
+  <audio id="navismAudio" preload="auto">
+    <source src="/audio/알람.mp3" type="audio/mp3">
+    브라우저가 오디오 태그를 지원하지 않습니다.
+  </audio>
+
+  <div>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>번호</th>
+        <th>강의명</th>
+        <th>잔여인원</th>
+        <th>강의시간</th>
+        <th>신청대기인원</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="lecture, iter : ${lectures}">
+        <td th:text="${lecture.id}"></td>
+        <td th:text="${lecture.name}"></td>
+        <td th:text="${lecture.remainingSeats}"></td>
+        <td th:text="${lecture.lectureTime}"></td>
+        <td th:text="${competitions[iter.index]}"></td>
+        <td style="text-align: right;">
+          <div class="d-flex align-items-center">
+            <!-- 신청하지 않은 경우 -->
+            <form th:if="${!enrollmentSet.contains(lecture.id)}"
+                  th:action="@{/enrollment/new}" method="post"
+                  class="d-flex align-items-center">
+              <input type="hidden" name="studentId" th:value="${session.loginMember.id}" />
+              <input type="hidden" name="lectureId" th:value="${lecture.id}" />
+              <button type="submit" class="btn btn-sm btn-info">신청</button>
+            </form>
+
+            <!-- 이미 신청한 경우 -->
+            <form th:if="${enrollmentSet.contains(lecture.id)}"
+                  th:action="@{/enrollment/{id}/cancel(id=${lecture.id})}" method="post"
+                  onsubmit="return confirm('정말 취소하시겠습니까?');"
+                  class="d-flex align-items-center">
+              <input type="hidden" name="_method" value="delete" />
+              <button class="btn btn-sm btn-danger">취소</button>
+            </form>
+
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+  <!-- 초기화 버튼 (footer와 같은 위치, 정중앙) -->
+  <div class="text-center my-4">
+    <form th:action="@{/enrollment/init}" method="post"
+          onsubmit="return confirm('정말 초기화하시겠습니까?');">
+      <input type="hidden" name="studentId" th:value="${studentId}" />
+      <button type="submit" class="btn btn-lg btn-warning">초기화</button>
+    </form>
+  </div>
+
+</div> <!-- /container -->
+
+</div> <!-- /container -->
+
+<!-- CSS for Centering Countdown -->
+<style>
+    #countdownContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 120px; /* 더 큰 글씨 */
+    font-weight: bold;
+    color: black; /* 검은색 글씨 */
+    text-align: center;
+    display: none; /* 처음에는 숨김 */
+  }
+
+</style>
+
+<!-- JavaScript for Countdown and Audio -->
+<script>
+function startCountdown(lectureId) {
+    let count = 5; // 5초 카운트다운 시작
+    let countdownText = document.getElementById("countdownText");
+    let countdownContainer = document.getElementById("countdownContainer");
+    let startButton = document.getElementById("startButton");
+    let audio = document.getElementById("navismAudio");
+
+    // 버튼 비활성화
+    startButton.disabled = true;
+
+    // 카운트다운 표시
+    countdownContainer.style.display = "block";
+    countdownText.innerText = count;
+
+    // 즉시 음악 재생
+    audio.play();
+
+    let timer = setInterval(() => {
+        count--;
+        countdownText.innerText = count;
+
+        if (count === 0) {
+            clearInterval(timer);
+            countdownContainer.style.display = "none";
+            audio.pause();
+            audio.currentTime = 0;
+
+            // 5초 후 practice 요청
+            sendPostRequest(lectureId);
+        }
+    }, 1000);
+}
+
+function sendPostRequest(lectureId) {
+    let studentId = [[${studentId}]];
+
+    if (!studentId || isNaN(studentId)) {
+        console.error("Invalid studentId:", studentId);
+        return;
+    }
+
+    // lectureId가 없으면 bulk (경로 세그먼트 생략)
+    let url;
+    if (lectureId) {
+        url = `/enrollment/practice/${studentId}/${lectureId}`;
+    } else {
+        url = `/enrollment/practice/${studentId}`;
+    }
+
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.text())
+    .then(data => console.log("Response:", data))
+    .catch(error => console.error('Error:', error));
+}
+
+
+
+
+</script>
+
+</body>
+</html>
