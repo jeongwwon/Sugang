@@ -1,7 +1,7 @@
-package Hello.Sugang.domain.login;
+package Hello.Sugang.domain.login.service;
 
-import Hello.Sugang.domain.student.Student;
-import Hello.Sugang.domain.student.StudentRepository;
+import Hello.Sugang.domain.student.entity.Student;
+import Hello.Sugang.domain.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

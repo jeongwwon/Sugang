@@ -1,4 +1,4 @@
-package Hello.Sugang.domain.student;
+package Hello.Sugang.domain.student.entity;
 
 public enum Difficulty {
 

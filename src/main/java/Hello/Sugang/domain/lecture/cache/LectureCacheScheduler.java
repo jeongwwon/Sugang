@@ -1,7 +1,7 @@
 package Hello.Sugang.domain.lecture.cache;
 
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.lecture.LectureRepository;
+import Hello.Sugang.domain.lecture.entity.Lecture;
+import Hello.Sugang.domain.lecture.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;

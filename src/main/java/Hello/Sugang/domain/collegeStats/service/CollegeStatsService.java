@@ -3,10 +3,9 @@ package Hello.Sugang.domain.collegeStats.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import Hello.Sugang.domain.collegeStats.repository.CollegeStatsRepository;
-import Hello.Sugang.domain.lecture.LectureRepository;
+import Hello.Sugang.domain.lecture.repository.LectureRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 

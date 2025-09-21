@@ -1,8 +1,8 @@
 package Hello.Sugang.domain.lecture.controller;
 
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.lecture.LectureForm;
-import Hello.Sugang.domain.lecture.LectureRepository;
+import Hello.Sugang.domain.lecture.entity.Lecture;
+import Hello.Sugang.domain.lecture.dto.LectureForm;
+import Hello.Sugang.domain.lecture.repository.LectureRepository;
 import Hello.Sugang.domain.lecture.service.LectureService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

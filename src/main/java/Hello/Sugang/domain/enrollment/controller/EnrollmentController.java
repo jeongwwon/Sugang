@@ -1,12 +1,12 @@
 package Hello.Sugang.domain.enrollment.controller;
 
-import Hello.Sugang.domain.enrollment.Enrollment;
+import Hello.Sugang.domain.enrollment.service.Enrollment;
 import Hello.Sugang.domain.enrollment.Facade.EnrollmentFacade;
-import Hello.Sugang.domain.enrollmentLog.EnrollmentLogRepository;
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.student.Student;
-import Hello.Sugang.domain.wishedlecture.WishedLecture;
-import Hello.Sugang.domain.wishedlecture.WishedLectureService;
+import Hello.Sugang.domain.enrollmentLog.repository.EnrollmentLogRepository;
+import Hello.Sugang.domain.lecture.entity.Lecture;
+import Hello.Sugang.domain.student.entity.Student;
+import Hello.Sugang.domain.wishedlecture.entity.WishedLecture;
+import Hello.Sugang.domain.wishedlecture.service.WishedLectureService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

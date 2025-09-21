@@ -1,9 +1,9 @@
 package Hello.Sugang.domain.Dummy.service.enrollment;
 
-import Hello.Sugang.domain.enrollmentLog.EnrollmentLog;
-import Hello.Sugang.domain.enrollmentLog.EnrollmentLogRepository;
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.lecture.LectureRepository;
+import Hello.Sugang.domain.enrollmentLog.entity.EnrollmentLog;
+import Hello.Sugang.domain.enrollmentLog.repository.EnrollmentLogRepository;
+import Hello.Sugang.domain.lecture.entity.Lecture;
+import Hello.Sugang.domain.lecture.repository.LectureRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

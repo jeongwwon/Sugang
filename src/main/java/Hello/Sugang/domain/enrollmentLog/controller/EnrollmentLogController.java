@@ -1,6 +1,6 @@
 package Hello.Sugang.domain.enrollmentLog.controller;
 
-import Hello.Sugang.domain.enrollmentLog.DTO.StudentHistoryDto;
+import Hello.Sugang.domain.enrollmentLog.dto.StudentHistoryDto;
 import Hello.Sugang.domain.enrollmentLog.service.FindHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

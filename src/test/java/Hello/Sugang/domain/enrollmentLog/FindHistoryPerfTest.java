@@ -4,7 +4,7 @@ import Hello.Sugang.domain.QueryType;
 import Hello.Sugang.domain.config.RequestContext;
 import Hello.Sugang.domain.config.RequestContextHolder;
 import Hello.Sugang.domain.enrollmentLog.service.FindHistoryService;
-import Hello.Sugang.domain.enrollmentLog.DTO.StudentHistoryDto;
+import Hello.Sugang.domain.enrollmentLog.dto.StudentHistoryDto;
 import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

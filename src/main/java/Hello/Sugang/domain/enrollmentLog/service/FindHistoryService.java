@@ -1,10 +1,10 @@
 package Hello.Sugang.domain.enrollmentLog.service;
 
 import Hello.Sugang.domain.collegeStats.entity.CollegeStats;
-import Hello.Sugang.domain.enrollmentLog.DTO.StudentHistoryDto;
-import Hello.Sugang.domain.enrollmentLog.EnrollmentLog;
-import Hello.Sugang.domain.enrollmentLog.EnrollmentLogRepository;
-import Hello.Sugang.domain.lecture.Lecture;
+import Hello.Sugang.domain.enrollmentLog.dto.StudentHistoryDto;
+import Hello.Sugang.domain.enrollmentLog.entity.EnrollmentLog;
+import Hello.Sugang.domain.enrollmentLog.repository.EnrollmentLogRepository;
+import Hello.Sugang.domain.lecture.entity.Lecture;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

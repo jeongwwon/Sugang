@@ -1,7 +1,7 @@
-package Hello.Sugang.domain.Dummy;
+package Hello.Sugang.domain.Dummy.entity;
 
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.student.Student;
+import Hello.Sugang.domain.lecture.entity.Lecture;
+import Hello.Sugang.domain.student.entity.Student;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

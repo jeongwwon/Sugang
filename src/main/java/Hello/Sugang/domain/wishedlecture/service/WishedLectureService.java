@@ -1,9 +1,11 @@
-package Hello.Sugang.domain.wishedlecture;
+package Hello.Sugang.domain.wishedlecture.service;
 
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.lecture.LectureRepository;
-import Hello.Sugang.domain.student.Student;
-import Hello.Sugang.domain.student.StudentRepository;
+import Hello.Sugang.domain.lecture.entity.Lecture;
+import Hello.Sugang.domain.lecture.repository.LectureRepository;
+import Hello.Sugang.domain.student.entity.Student;
+import Hello.Sugang.domain.student.repository.StudentRepository;
+import Hello.Sugang.domain.wishedlecture.repository.WishedLectureRepository;
+import Hello.Sugang.domain.wishedlecture.entity.WishedLecture;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

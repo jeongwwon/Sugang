@@ -1,4 +1,4 @@
-package Hello.Sugang.domain.enrollment;
+package Hello.Sugang.domain.enrollment.service;
 
 import org.springframework.http.ResponseEntity;
 

@@ -1,4 +1,4 @@
-package Hello.Sugang.domain.lecture;
+package Hello.Sugang.domain.lecture.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;

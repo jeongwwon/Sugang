@@ -1,8 +1,8 @@
 package Hello.Sugang.domain.lecture.service;
 
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.lecture.LectureForm;
-import Hello.Sugang.domain.lecture.LectureRepository;
+import Hello.Sugang.domain.lecture.entity.Lecture;
+import Hello.Sugang.domain.lecture.dto.LectureForm;
+import Hello.Sugang.domain.lecture.repository.LectureRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor

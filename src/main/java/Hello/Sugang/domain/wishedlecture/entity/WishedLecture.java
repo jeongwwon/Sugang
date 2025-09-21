@@ -1,7 +1,7 @@
-package Hello.Sugang.domain.wishedlecture;
+package Hello.Sugang.domain.wishedlecture.entity;
 
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.student.Student;
+import Hello.Sugang.domain.lecture.entity.Lecture;
+import Hello.Sugang.domain.student.entity.Student;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package Hello.Sugang.web.login;
 
-import Hello.Sugang.domain.login.LoginService;
-import Hello.Sugang.domain.student.Student;
+import Hello.Sugang.domain.login.service.LoginService;
+import Hello.Sugang.domain.student.entity.Student;
 import Hello.Sugang.web.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

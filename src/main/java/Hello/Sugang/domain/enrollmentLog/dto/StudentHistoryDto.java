@@ -1,4 +1,4 @@
-package Hello.Sugang.domain.enrollmentLog.DTO;
+package Hello.Sugang.domain.enrollmentLog.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

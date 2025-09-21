@@ -1,15 +1,9 @@
 package Hello.Sugang.domain.Dummy.service.enrollment;
 
-import Hello.Sugang.domain.enrollmentLog.EnrollmentLog;
-import Hello.Sugang.domain.enrollmentLog.EnrollmentLogRepository;
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.lecture.LectureRepository;
-import Hello.Sugang.domain.student.Difficulty;
-import jakarta.transaction.Transactional;
+import Hello.Sugang.domain.student.entity.Difficulty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;

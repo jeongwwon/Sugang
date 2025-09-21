@@ -1,9 +1,11 @@
 package Hello.Sugang.domain.Dummy;
 
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.lecture.LectureRepository;
-import Hello.Sugang.domain.student.Student;
-import Hello.Sugang.domain.student.StudentRepository;
+import Hello.Sugang.domain.Dummy.entity.DummyUser;
+import Hello.Sugang.domain.Dummy.repository.DummyUserRepository;
+import Hello.Sugang.domain.lecture.entity.Lecture;
+import Hello.Sugang.domain.lecture.repository.LectureRepository;
+import Hello.Sugang.domain.student.entity.Student;
+import Hello.Sugang.domain.student.repository.StudentRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -11,13 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
-import org.springframework.util.StopWatch;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @SpringBootTest
 class DummyUserServiceTest {

@@ -1,16 +1,10 @@
-package Hello.Sugang.domain.student;
+package Hello.Sugang.domain.student.entity;
 
-import Hello.Sugang.domain.student.Difficulty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Entity
 @Data

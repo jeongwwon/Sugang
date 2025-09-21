@@ -1,5 +1,6 @@
-package Hello.Sugang.domain.student;
+package Hello.Sugang.domain.student.dto;
 
+import Hello.Sugang.domain.student.entity.Difficulty;
 import lombok.Getter;
 import lombok.Setter;
 

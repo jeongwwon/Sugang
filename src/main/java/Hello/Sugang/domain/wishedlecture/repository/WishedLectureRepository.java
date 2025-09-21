@@ -1,7 +1,7 @@
-package Hello.Sugang.domain.wishedlecture;
+package Hello.Sugang.domain.wishedlecture.repository;
 
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.student.Student;
+import Hello.Sugang.domain.student.entity.Student;
+import Hello.Sugang.domain.wishedlecture.entity.WishedLecture;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

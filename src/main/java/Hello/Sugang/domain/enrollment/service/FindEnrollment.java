@@ -1,4 +1,4 @@
-package Hello.Sugang.domain.enrollment;
+package Hello.Sugang.domain.enrollment.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class EnrollmentStore {
+public class FindEnrollment {
 
     private final Map<String, Enrollment> enrollmentMap;
 

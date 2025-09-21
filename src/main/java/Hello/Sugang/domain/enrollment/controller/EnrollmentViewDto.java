@@ -1,6 +1,6 @@
 package Hello.Sugang.domain.enrollment.controller;
 
-import Hello.Sugang.domain.lecture.Lecture;
+import Hello.Sugang.domain.lecture.entity.Lecture;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,6 +1,7 @@
-package Hello.Sugang.domain.enrollmentLog;
+package Hello.Sugang.domain.enrollmentLog.repository;
 
 import Hello.Sugang.domain.collegeStats.entity.CollegeStats;
+import Hello.Sugang.domain.enrollmentLog.entity.EnrollmentLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

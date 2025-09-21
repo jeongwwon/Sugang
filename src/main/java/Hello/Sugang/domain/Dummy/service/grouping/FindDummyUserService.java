@@ -1,7 +1,7 @@
 package Hello.Sugang.domain.Dummy.service.grouping;
 
-import Hello.Sugang.domain.Dummy.DummyUser;
-import Hello.Sugang.domain.Dummy.DummyUserRepository;
+import Hello.Sugang.domain.Dummy.entity.DummyUser;
+import Hello.Sugang.domain.Dummy.repository.DummyUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

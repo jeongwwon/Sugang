@@ -1,7 +1,7 @@
-package Hello.Sugang.domain.lecture.lectureRedis;
+package Hello.Sugang.domain.lecture.redis;
 
-import Hello.Sugang.domain.lecture.Lecture;
-import Hello.Sugang.domain.lecture.LectureRepository;
+import Hello.Sugang.domain.lecture.entity.Lecture;
+import Hello.Sugang.domain.lecture.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -9,7 +9,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component

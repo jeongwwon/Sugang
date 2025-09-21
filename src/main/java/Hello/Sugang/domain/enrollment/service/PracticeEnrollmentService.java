@@ -3,9 +3,8 @@ package Hello.Sugang.domain.enrollment.service;
 
 import Hello.Sugang.domain.Dummy.service.enrollment.DummyParallelEnrollmentService;
 import Hello.Sugang.domain.Dummy.service.grouping.FindDummyUserService;
-import Hello.Sugang.domain.enrollment.Enrollment;
-import Hello.Sugang.domain.student.Student;
-import Hello.Sugang.domain.student.StudentRepository;
+import Hello.Sugang.domain.student.entity.Student;
+import Hello.Sugang.domain.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

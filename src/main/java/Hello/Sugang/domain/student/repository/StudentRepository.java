@@ -1,5 +1,6 @@
-package Hello.Sugang.domain.student;
+package Hello.Sugang.domain.student.repository;
 
+import Hello.Sugang.domain.student.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,14 +1,10 @@
 package Hello.Sugang.domain.enrollment.service;
 
-import Hello.Sugang.domain.enrollment.Enrollment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.time.Duration;
-import java.util.UUID;
 
 @Service("redis")
 @RequiredArgsConstructor

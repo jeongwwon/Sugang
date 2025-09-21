@@ -1,8 +1,7 @@
-package Hello.Sugang.domain.enrollmentLog;
+package Hello.Sugang.domain.enrollmentLog.entity;
 
-import Hello.Sugang.domain.lecture.Lecture;
+import Hello.Sugang.domain.lecture.entity.Lecture;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

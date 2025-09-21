@@ -1,13 +1,11 @@
 package Hello.Sugang.domain.student.controller;
 
-import Hello.Sugang.domain.student.Difficulty;
-import Hello.Sugang.domain.student.DifficultyForm;
-import Hello.Sugang.domain.student.Student;
-import Hello.Sugang.domain.student.StudentRepository;
+import Hello.Sugang.domain.student.dto.DifficultyForm;
+import Hello.Sugang.domain.student.entity.Student;
+import Hello.Sugang.domain.student.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

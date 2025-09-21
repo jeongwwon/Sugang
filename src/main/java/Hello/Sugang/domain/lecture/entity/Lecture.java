@@ -1,4 +1,4 @@
-package Hello.Sugang.domain.lecture;
+package Hello.Sugang.domain.lecture.entity;
 
 import Hello.converter.AtomicIntegerConverter;
 import jakarta.persistence.*;

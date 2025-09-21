@@ -1,11 +1,11 @@
 package Hello.Sugang.domain.wishedlecture.controller;
 
-import Hello.Sugang.domain.lecture.Lecture;
+import Hello.Sugang.domain.lecture.entity.Lecture;
 import Hello.Sugang.domain.lecture.service.LectureService;
 import Hello.Sugang.domain.Dummy.service.DummyUserService;
-import Hello.Sugang.domain.student.Student;
-import Hello.Sugang.domain.wishedlecture.WishedLecture;
-import Hello.Sugang.domain.wishedlecture.WishedLectureService;
+import Hello.Sugang.domain.student.entity.Student;
+import Hello.Sugang.domain.wishedlecture.entity.WishedLecture;
+import Hello.Sugang.domain.wishedlecture.service.WishedLectureService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
