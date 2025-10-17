@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class LectureRedisInitializer implements ApplicationRunner {
 
@@ -22,7 +22,7 @@ public class LectureRedisInitializer implements ApplicationRunner {
     private static final String LECTURE_KEY_PREFIX = "lecture:";
     private static final String ENROLL_KEY_PREFIX = "enroll:";
 
-    @Override
+    //@Override
     public void run(ApplicationArguments args) {
         // lectureId=1번만 가져오기
         Lecture lecture = lectureRepository.findById(1L)

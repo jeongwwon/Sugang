@@ -27,7 +27,7 @@ public class FindHistoryService {
     public List<StudentHistoryDto> findHistoryWithFetchJoin(Long studentId){
         return transferDto(enrollmentLogRepository.findWithLectureByStudentId(studentId));
     }
-    // 테스트 작성,청사진 캡쳐 -> 인덱스 생성 -> 테스트,청사진 캡쳐
+
     public List<StudentHistoryDto> findCollegeHistory(String school,String department){
         return transferDto(enrollmentLogRepository.findBySchoolAndDepartment(school,department));
     }

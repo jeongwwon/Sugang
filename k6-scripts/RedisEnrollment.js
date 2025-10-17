@@ -5,9 +5,8 @@ export const options = {
   scenarios: {
     one_time_enrollment: {
       executor: 'per-vu-iterations',
-      vus: 5000,         // 5천명 동시 접속
-      iterations: 1,      // 각 VU는 1번만 실행
-      maxDuration: '3m',  // 전체 시뮬레이션은 최대 3분 내에 끝남
+      vus: 1000,         // 10만명 동시 접속
+      iterations: 1      // 각 VU는 1번만 실행
     },
   },
 };

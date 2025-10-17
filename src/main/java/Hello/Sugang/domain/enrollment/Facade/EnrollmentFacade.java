@@ -1,5 +1,6 @@
 package Hello.Sugang.domain.enrollment.Facade;
 
+import Hello.Sugang.domain.enrollment.service.Enrollment;
 import Hello.Sugang.domain.enrollment.service.FindEnrollment;
 import Hello.Sugang.domain.enrollmentLog.repository.EnrollmentLogRepository;
 import Hello.Sugang.domain.lecture.repository.LectureRepository;
@@ -10,18 +11,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class EnrollmentFacade {
 
-    private final FindEnrollment findEnrollment;
+    private final Map<String, Enrollment> enrollmentMap;
     private final WishedLectureService wishedLectureService;
     private final LectureRepository lectureRepository;
     private final EnrollmentLogRepository enrollmentLogRepository;
 
     public ResponseEntity<String> enroll(String mode, Long studentId, Long lectureId) {
-        return findEnrollment.findEnrollment(mode).register(studentId,lectureId);
+        return enrollmentMap.get(mode).register(studentId,lectureId);
     }
 
     @Transactional

@@ -1,58 +1,66 @@
 package Hello.Sugang.domain.enrollment.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import java.nio.charset.StandardCharsets;
 
 @Service("redis")
 @RequiredArgsConstructor
 public class RedisEnrollmentService implements Enrollment {
 
-    private final StringRedisTemplate redisTemplate;  // Spring Data Redis
+    private final StringRedisTemplate redisTemplate;
 
     private static final String SEAT_KEY_PREFIX = "seat:";
     private static final String LECTURE_KEY_PREFIX = "lecture:";
     private static final String ENROLL_KEY_PREFIX = "enroll:";
+
+    // Redis에 로드된 Lua Script의 SHA
+    private static final String REGISTER_SCRIPT_SHA = "60d7dfe4cfd2887d426a56aa1a9d0ffec5e18e18";
+
     @Override
     public ResponseEntity<String> register(Long studentId, Long lectureId) {
         String seatKey = SEAT_KEY_PREFIX + lectureId;
         String enrollKey = ENROLL_KEY_PREFIX + lectureId;
         String lectureKey = LECTURE_KEY_PREFIX + lectureId;
 
-        // 1. 좌석 유무 확인
-        if (!Boolean.TRUE.equals(redisTemplate.hasKey(seatKey))) {
+        try {
+            byte[] resultBytes = redisTemplate.execute((RedisConnection connection) ->
+                    connection.evalSha(
+                            REGISTER_SCRIPT_SHA.getBytes(StandardCharsets.UTF_8),
+                            ReturnType.VALUE,
+                            3,
+                            seatKey.getBytes(StandardCharsets.UTF_8),
+                            enrollKey.getBytes(StandardCharsets.UTF_8),
+                            lectureKey.getBytes(StandardCharsets.UTF_8),
+                            studentId.toString().getBytes(StandardCharsets.UTF_8),
+                            String.valueOf(System.currentTimeMillis()).getBytes(StandardCharsets.UTF_8)
+                    )
+            );
+
+            String response = (resultBytes == null) ? "" : new String(resultBytes, StandardCharsets.UTF_8);
+
+            switch (response) {
+                case "SUCCESS":
+                    return ResponseEntity.ok("수강신청 성공: studentId=" + studentId + ", lectureId=" + lectureId);
+                case "SOLD_OUT":
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("해당 강의는 마감되었습니다.");
+                case "ALREADY_REGISTERED":
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신청된 사용자입니다.");
+                case "NO_SEAT_KEY":
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("좌석 키가 없습니다.");
+                default:
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body("알 수 없는 오류: " + response);
+            }
+
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("좌석 키가 없습니다. 초기화가 되었는지 확인하세요.");
+                    .body("Redis Lua 실행 중 오류: " + e.getMessage());
         }
-        // 2. 잔여 좌석 차감 (원자적 연산)
-        Long remaining = redisTemplate.opsForValue().decrement(seatKey);
-
-        if (remaining == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("좌석 정보가 존재하지 않습니다.");
-        }
-
-        if (remaining < 0) {
-            // 좌석 초과 → 롤백
-            redisTemplate.opsForValue().increment(seatKey);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("해당 강의는 마감되었습니다.");
-        }
-
-        // 3. SortedSet에 studentId 등록 (score = timestamp)
-        double score = System.currentTimeMillis();
-        Boolean added = redisTemplate.opsForZSet().add(enrollKey, studentId.toString(), score);
-
-        if (Boolean.FALSE.equals(added)) {
-            // 만약 중복으로 add 실패하면 좌석 롤백
-            redisTemplate.opsForValue().increment(seatKey);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신청된 사용자입니다.");
-        }
-
-        // 4. lecture Hash의 remainingSeats 값도 동기화
-        redisTemplate.opsForHash().increment(lectureKey, "remainingSeats", -1);
-
-        return ResponseEntity.ok("수강신청 성공: studentId=" + studentId + ", lectureId=" + lectureId);
     }
 }
-

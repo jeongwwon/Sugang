@@ -1,4 +1,24 @@
 spring:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:org/springframework/batch/core/schema-mysql.sql
+
+  batch:
+    jdbc:
+      initialize-schema: always
+
+  kafka:
+    bootstrap-servers: localhost:9093
+    consumer:
+      group-id: sugang
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
   datasource:
     url: jdbc:mysql://${RDS_ENDPOINT:localhost}:3306/portfolio?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false&rewriteBatchedStatements=true
     username: portfolio_user
@@ -16,7 +36,7 @@ spring:
       enabled: true
 
   jpa:
-    defer-datasource-initialization: true
+    #defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
     properties:
@@ -35,6 +55,7 @@ spring:
     redis:
       host: localhost
       port: 6379
+
 
 logging:
   level:
@@ -57,7 +78,11 @@ management:
 
 server:
   tomcat:
-    connection-timeout: 120000      # 120초
+    threads:
+      max: 1600
+      min-spare: 50
+    accept-count: 20000
+    connection-timeout: 120000   # (기존 설정 유지)
   servlet:
     session:
       timeout: 120s                # 세션 타임아웃
