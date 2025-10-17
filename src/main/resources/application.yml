@@ -1,12 +1,4 @@
 spring:
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:org/springframework/batch/core/schema-mysql.sql
-
-  batch:
-    jdbc:
-      initialize-schema: always
 
   kafka:
     bootstrap-servers: localhost:9093
@@ -38,7 +30,7 @@ spring:
   jpa:
     #defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         jdbc:

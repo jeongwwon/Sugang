@@ -34,6 +34,7 @@ SELECT
 FROM numbers;
 
 
+
 INSERT INTO enrollment_log (student_id, lecture_id, status)
 WITH RECURSIVE numbers AS (
     SELECT 1 AS n
